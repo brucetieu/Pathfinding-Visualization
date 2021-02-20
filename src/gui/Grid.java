@@ -1,6 +1,5 @@
 package gui;
 
-import pathfinding.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.util.List;
 
 
 public class Grid extends JPanel implements MouseMotionListener {
-    
+
 
     public Grid() {
 
