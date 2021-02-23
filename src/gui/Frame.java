@@ -1,13 +1,19 @@
 package gui;
 
+import maze.MazeGeneration;
+import pathfinding.Node;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Frame{
+public class Frame {
     private JPanel panel;
     private JPanel controllerPanel;
-    private String[] mazeGenerationOptions = {"Random", "Prim's", "Kruskal's"};
+    private final String[] mazeGenerationOptions = {"Random", "Prim's", "Kruskal's"};
     private JComboBox mazeGenerationOptionList;
+    private JButton generateMazeBtn;
 
     public Frame() {
         JFrame frame = new JFrame();
@@ -20,16 +26,29 @@ public class Frame{
         controllerPanel.setPreferredSize(new Dimension(250, frame.getHeight()));
         controllerPanel.setBackground(Color.lightGray);
 
-        JButton visualize = new JButton("Visualize");
+        JButton visualizeBtn = new JButton("Visualize");
         JLabel mazeLabel = new JLabel("Choose a maze creation method");
         mazeGenerationOptionList = new JComboBox(mazeGenerationOptions);
-        JButton generateMaze = new JButton("Generate Maze");
+        generateMazeBtn = new JButton("Generate Maze");
 
 
-        controllerPanel.add(visualize);
+
+        MazeGeneration maze = new MazeGeneration(1200, 800);
+        panel.add(maze);
+
+        generateMazeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = mazeGenerationOptionList.getSelectedIndex();
+                System.out.println(selectedIndex);
+                maze.chooseMaze(selectedIndex);
+            }
+        });
+
+        controllerPanel.add(visualizeBtn);
         controllerPanel.add(mazeLabel);
         controllerPanel.add(mazeGenerationOptionList);
-        controllerPanel.add(generateMaze);
+        controllerPanel.add(generateMazeBtn);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel, BorderLayout.CENTER);
         frame.add(controllerPanel, BorderLayout.WEST);
@@ -40,5 +59,7 @@ public class Frame{
         frame.setVisible(true);
 
     }
+
+
 
 }
