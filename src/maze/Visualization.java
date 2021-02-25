@@ -1,7 +1,5 @@
 package maze;
 
-import pathfinding.Node;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -47,9 +45,9 @@ public class Visualization extends JFrame {
         generateMazeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DFSRandomized dfsRandomized = new DFSRandomized(maze.getMaze());
+                RandomizedDFS randomizedDFS = new RandomizedDFS(maze.getMaze());
                 maze.resetMaze();
-                dfsRandomized.generateMaze();
+                randomizedDFS.generateMaze();
                 repaint();
             }
     });
@@ -76,6 +74,7 @@ public class Visualization extends JFrame {
             for (int col = 0; col < maze.getMaze()[0].length; col++) {
 
                 if (maze.getMaze()[row][col].isStart() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.green);
+                else if (maze.getMaze()[row][col].isEnd() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.red);
                 else if (!maze.getMaze()[row][col].isWall())  g.setColor(Color.white);
                 else if (maze.getMaze()[row][col].isWall()) g.setColor(Color.black);
 
