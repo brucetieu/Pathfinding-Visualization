@@ -1,9 +1,9 @@
 package gui;
 
-import maze.MazeGeneration;
+import maze.Visualization;
 
 public class Main {
     public static void main(String[] args) {
-        new MazeGeneration();
+        new Visualization();
     }
 }
