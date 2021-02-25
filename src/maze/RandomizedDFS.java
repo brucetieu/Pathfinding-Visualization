@@ -21,6 +21,7 @@ public class RandomizedDFS extends JPanel {
     private Random rand = new Random();
     private int height;
     private int width;
+    private int r1, r2, c1, c2;
 
     public RandomizedDFS(Node[][] maze) {
         this.maze = maze;
@@ -34,25 +35,9 @@ public class RandomizedDFS extends JPanel {
      * Generate the maze with randomized dfs.
      */
     public void generateMaze() {
-        // Generate random odd row for start node.
-        int r1 = rand.nextInt(height);
-        while (r1 % 2 == 0) r1 = rand.nextInt(height);
 
-        // Generate random odd col for end node.
-        int c1 = rand.nextInt(width);
-        while (c1 % 2 == 0) c1 = rand.nextInt(width);
-
-        int r2 = rand.nextInt(height);
-        while (r2 % 2 != 0) r2 = rand.nextInt(height);
-
-        int c2 = rand.nextInt(width);
-        while (c2 % 2 != 0) c2 = rand.nextInt(width);
-
-        this.maze[r1][c1].setStart(true);
-        this.maze[r1][c1].setWall(false);
-
-        this.maze[r2][c2].setEnd(true);
-        this.maze[r2][c2].setWall(false);
+        generateStartNode();
+        generateEndNode();
 
         // DFS from the start node.
         dfs(r1, c1);
@@ -110,5 +95,36 @@ public class RandomizedDFS extends JPanel {
         Collections.shuffle(adjNeighbors);
         return adjNeighbors;
 
+    }
+
+    /**
+     * Generate a start node at an odd place on the maze.
+     */
+    private void generateStartNode() {
+        r1 = rand.nextInt(height);
+        while (r1 % 2 == 0) r1 = rand.nextInt(height);
+
+        // Generate random odd col for end node.
+        c1 = rand.nextInt(width);
+        while (c1 % 2 == 0) c1 = rand.nextInt(width);
+
+        this.maze[r1][c1].setStart(true);
+        this.maze[r1][c1].setWall(false);
+    }
+
+    /**
+     * Generate an end node at an even place on the maze. Do this so that startNode != endNode.
+     */
+    private void generateEndNode() {
+        // Generate random even row for start node.
+        r2 = rand.nextInt(height);
+        while (r2 % 2 != 0) r2 = rand.nextInt(height);
+
+        // Generate random even col for end node.
+        c2 = rand.nextInt(width);
+        while (c2 % 2 != 0) c2 = rand.nextInt(width);
+
+        this.maze[r2][c2].setEnd(true);
+        this.maze[r2][c2].setWall(false);
     }
 }
