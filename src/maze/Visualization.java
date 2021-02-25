@@ -1,8 +1,6 @@
 package maze;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -25,6 +23,8 @@ public class Visualization extends JFrame {
     private JPanel controllerPanel;
     private JButton generateMazeBtn;
 
+    private final String[] mazeGenerationOptions = {"Random DFS", "Recursive Division", "Prim's", "Kruskal's"};
+
 
     public Visualization() {
 
@@ -38,19 +38,25 @@ public class Visualization extends JFrame {
         controllerPanel.setPreferredSize(new Dimension(250, this.getHeight()));
         controllerPanel.setBackground(Color.lightGray);
 
+        JLabel mazeOptionsLabel = new JLabel("Choose a Maze Generation method");
+        JComboBox mazeOptionsComboBox = new JComboBox(mazeGenerationOptions);
+
         generateMazeBtn = new JButton("Generate Maze");
         mainPanel.add(maze);
-        controllerPanel.add(generateMazeBtn);
 
-        generateMazeBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        generateMazeBtn.addActionListener(e -> {
+            int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
+            if (selectedIndex == 0) {
                 RandomizedDFS randomizedDFS = new RandomizedDFS(maze.getMaze());
                 maze.resetMaze();
                 randomizedDFS.generateMaze();
                 repaint();
             }
-    });
+        });
+
+        controllerPanel.add(mazeOptionsLabel);
+        controllerPanel.add(mazeOptionsComboBox);
+        controllerPanel.add(generateMazeBtn);
 
 
 

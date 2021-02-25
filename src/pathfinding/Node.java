@@ -15,6 +15,9 @@ public class Node {
      * Initialize a node to a specific (x,y) position in the grid.
      * @param row The row in the grid.
      * @param col The col in the grid.
+     * @param isWall Is this node a wall?
+     * @param isStart Is this node the start node?
+     * @param isEnd Is this node the end node?
      */
     public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd) {
         this.row = row;
