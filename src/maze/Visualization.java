@@ -49,6 +49,7 @@ public class Visualization extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DFSRandomized dfsRandomized = new DFSRandomized(maze.getMaze());
                 maze.resetMaze();
+                dfsRandomized.generateMaze();
                 repaint();
             }
     });
@@ -74,9 +75,10 @@ public class Visualization extends JFrame {
         for (int row = 0; row < maze.getMaze().length; row++) {
             for (int col = 0; col < maze.getMaze()[0].length; col++) {
 
-                if (!maze.getMaze()[row][col].isWall())  g.setColor(Color.white);
+                if (maze.getMaze()[row][col].isStart() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.green);
+                else if (!maze.getMaze()[row][col].isWall())  g.setColor(Color.white);
                 else if (maze.getMaze()[row][col].isWall()) g.setColor(Color.black);
-                else if(maze.getMaze()[row][col].isStart()) g.setColor(Color.green);
+
 
                 // Fill rect according to what each node is
                 g.fillRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
