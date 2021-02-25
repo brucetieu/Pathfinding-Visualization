@@ -2,26 +2,19 @@ package maze;
 
 import pathfinding.Node;
 
-import javax.swing.*;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
+import javax.swing.JPanel;
 
-public class DFSRandomized {
+public class DFSRandomized extends JPanel {
 
-    private Node[][] grid;
-    private JPanel panel;
+    private Node[][] maze;
 
-    public DFSRandomized(Node[][] grid, JPanel panel) {
-        this.grid = grid;
-        this.panel = panel;
+    private int height;
+    private int width;
 
-        Random random = new Random();
+    public DFSRandomized(Node[][] maze) {
+        this.maze = maze;
+        width = this.maze[0].length;
+        height = this.maze.length;
 
-        int r = random.nextInt();
     }
-
-
-
-
 }
