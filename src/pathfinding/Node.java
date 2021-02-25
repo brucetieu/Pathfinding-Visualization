@@ -1,22 +1,28 @@
 package pathfinding;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Node {
 
     private int row;
     private int col;
     private boolean isWall;
-    private boolean start;
-    private boolean end;
-
+    private boolean isStart;
+    private boolean isEnd;
+    private Color color;
 
     /**
      * Initialize a node to a specific (x,y) position in the grid.
      * @param row The row in the grid.
      * @param col The col in the grid.
      */
-    public Node(int row, int col) {
+    public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd) {
         this.row = row;
         this.col = col;
+        this.isWall = isWall;
+        this.isStart = isStart;
+        this.isEnd = isEnd;
     }
 
     public int getRow() {
@@ -44,18 +50,19 @@ public class Node {
     }
 
     public boolean isStart() {
-        return start;
+        return isStart;
     }
 
     public void setStart(boolean start) {
-        this.start = start;
+        isStart = start;
     }
 
     public boolean isEnd() {
-        return end;
+        return isEnd;
     }
 
     public void setEnd(boolean end) {
-        this.end = end;
+        isEnd = end;
     }
+
 }
