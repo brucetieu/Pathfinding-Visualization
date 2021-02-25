@@ -23,7 +23,7 @@ public class Maze extends JPanel{
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
                 Node node = new Node(row, col, true, false, false);
-                maze[row][col] = node; // All paths are open
+                maze[row][col] = node; // All paths are closed.
             }
         }
     }
