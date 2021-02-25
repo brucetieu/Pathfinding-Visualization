@@ -10,7 +10,6 @@ public class Node {
     private boolean isWall;
     private boolean isStart;
     private boolean isEnd;
-    private Color color;
 
     /**
      * Initialize a node to a specific (x,y) position in the grid.
