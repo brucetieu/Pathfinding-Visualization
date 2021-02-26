@@ -1,7 +1,6 @@
 package pathfinding;
 
-import javax.swing.*;
-import java.awt.*;
+import java.util.Objects;
 
 public class Node {
 
@@ -10,6 +9,7 @@ public class Node {
     private boolean isWall;
     private boolean isStart;
     private boolean isEnd;
+    private boolean isVisited;
 
     /**
      * Initialize a node to a specific (x,y) position in the grid.
@@ -19,12 +19,18 @@ public class Node {
      * @param isStart Is this node the start node?
      * @param isEnd Is this node the end node?
      */
-    public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd) {
+    public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd, boolean isVisited) {
         this.row = row;
         this.col = col;
         this.isWall = isWall;
         this.isStart = isStart;
         this.isEnd = isEnd;
+        this.isVisited = isVisited;
+    }
+
+    public Node(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
     public int getRow() {
@@ -67,4 +73,24 @@ public class Node {
         isEnd = end;
     }
 
+    public boolean isVisited() {
+        return isVisited;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return row == node.row && col == node.col && isWall == node.isWall && isStart == node.isStart && isEnd == node.isEnd && isVisited == node.isVisited;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col, isWall, isStart, isEnd, isVisited);
+    }
 }

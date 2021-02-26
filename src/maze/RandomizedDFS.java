@@ -2,18 +2,23 @@ package maze;
 
 import pathfinding.Node;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
  * Randomized Depth First Search maze generation.
  * https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_depth-first_search
  */
-public class RandomizedDFS extends JPanel {
+public class RandomizedDFS{
 
     private Node[][] maze;
     private boolean[][] visited;  // Maintain a 2d boolean array to mark which nodes have been visited.
@@ -22,6 +27,7 @@ public class RandomizedDFS extends JPanel {
     private int height;
     private int width;
     private int r1, r2, c1, c2;
+    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public RandomizedDFS(Node[][] maze) {
         this.maze = maze;
@@ -29,6 +35,38 @@ public class RandomizedDFS extends JPanel {
         height = this.maze.length;
 
         this.visited = new boolean[height][width];
+    }
+
+    public int getR1() {
+        return r1;
+    }
+
+    public void setR1(int r1) {
+        this.r1 = r1;
+    }
+
+    public int getR2() {
+        return r2;
+    }
+
+    public void setR2(int r2) {
+        this.r2 = r2;
+    }
+
+    public int getC1() {
+        return c1;
+    }
+
+    public void setC1(int c1) {
+        this.c1 = c1;
+    }
+
+    public int getC2() {
+        return c2;
+    }
+
+    public void setC2(int c2) {
+        this.c2 = c2;
     }
 
     /**
@@ -59,6 +97,7 @@ public class RandomizedDFS extends JPanel {
             // Choose one of the neighboring cells (given randomly).
             if (!this.visited[node.getRow()][node.getCol()]) {
                 this.maze[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
+
                 dfs(node.getRow(), node.getCol());  // Invoke dfs recursively for a chosen cell.
             }
         }
@@ -76,19 +115,19 @@ public class RandomizedDFS extends JPanel {
 
         // Top
         if (row-1 >= 0 && this.maze[row-1][col].isWall()) {
-            adjNeighbors.add(new Node(row-1, col, true, false, false));
+            adjNeighbors.add(new Node(row-1, col, true, false, false, false));
         }
         // Bottom
         if (row+1 < height && this.maze[row+1][col].isWall()) {
-            adjNeighbors.add(new Node(row+1, col, true, false, false));
+            adjNeighbors.add(new Node(row+1, col, true, false, false, false));
         }
         // Left
         if (col-1 >= 0 && this.maze[row][col-1].isWall()) {
-            adjNeighbors.add(new Node(row, col-1, true, false, false));
+            adjNeighbors.add(new Node(row, col-1, true, false, false, false));
         }
         // Right
         if (col+1 < width && this.maze[row][col+1].isWall()) {
-            adjNeighbors.add(new Node(row, col+1, true, false, false));
+            adjNeighbors.add(new Node(row, col+1, true, false, false, false));
         }
 
         // Important! We must shuffle the list randomly, hence 'randomized' dfs.
@@ -127,4 +166,5 @@ public class RandomizedDFS extends JPanel {
         this.maze[r2][c2].setEnd(true);
         this.maze[r2][c2].setWall(false);
     }
+
 }
