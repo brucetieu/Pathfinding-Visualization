@@ -5,10 +5,12 @@ import utils.Delay;
 
 import java.util.*;
 
+/**
+ * Depth first search algorithm to find a path from start to end node.
+ */
 public class DepthFirstSearch {
 
     private Maze maze;
-//    private boolean[][] visited;  // Maintain a 2d boolean array to mark which nodes have been visited.
 
     private int height;
     private int width;
@@ -16,10 +18,15 @@ public class DepthFirstSearch {
     private Node endNode;
 
     private Node[][] edgeTo;
-//    List<List<Node>> paths;
     private Stack<Node> path;
 
 
+    /**
+     * Initialze variables for the depth first search
+     * @param maze The maze. It's important to pass the maze object in to gain access of the update() method for repainting the maze again.
+     * @param startNode The starting position to begin the search.
+     * @param endNode The destination node.
+     */
     public DepthFirstSearch(Maze maze, Node startNode, Node endNode) {
         this.maze = maze;
         this.width = this.maze.getMaze()[0].length;
@@ -32,19 +39,17 @@ public class DepthFirstSearch {
 
         this.path = new Stack<>();
 
-
         dfs();
-//        dfs(this.startNode.getRow() + 1, this.startNode.getCol() + 1);
     }
 
-
-
+    /**
+     * Return any single path to get to the end node from the starting node.
+     * @param endNode The destination node
+     * @return A list containing the path (in this case a stack).
+     */
     public Iterable<Node> pathTo(Node endNode) {
-//        if (!hasPathTo(endNode)) return null;
 
         for (Node x = endNode; !x.equals(this.startNode); x = edgeTo[x.getRow()][x.getCol()]) {
-            System.out.println(x.getRow() + " " + x.getCol());
-//            x.setPath(true);
             this.maze.getMaze()[x.getRow()][x.getCol()].setPath(true);
             Delay.delay(5);
             this.maze.update();
@@ -54,10 +59,11 @@ public class DepthFirstSearch {
         return this.path;
     }
 
-    public boolean hasPathTo(Node endNode) {
-        return this.maze.getMaze()[endNode.getRow()][endNode.getCol()].isVisited();
-    }
 
+    /**
+     * Perform depth first search.
+     * @return An iterable containing the path, if it exists.
+     */
     private Iterable<Node> dfs() {
         Stack<Node> stack = new Stack<>();
 
@@ -68,7 +74,7 @@ public class DepthFirstSearch {
 
             if (currentNode.equals(this.endNode)) {
 
-                // TODO: Get the path we took to get to the end node. Then draw that path.
+                // Get the path we took to get to the end node. Then draw that path.
                 return pathTo(this.endNode);
             }
 
@@ -86,30 +92,6 @@ public class DepthFirstSearch {
         return null;
     }
 
-//    private void dfs(int row, int col) {
-//
-//        if (this.maze.getMaze()[row][col].isStart()) return;
-//        if (this.maze.getMaze()[row][col].isEnd()) {
-//
-//            return;
-//        }
-//
-//
-//        this.maze.getMaze()[row][col].setVisited(true);
-//
-//        for (Node node : findAdjacent(row, col)) {
-//            if (!this.maze.getMaze()[node.getRow()][node.getCol()].isVisited()) {
-//                this.edgeTo[node.getRow()][node.getCol()] = new Node(row, col);
-//                Delay.delay(1);
-//                this.maze.update();
-//                dfs(node.getRow(), node.getCol());
-//            }
-//        }
-//    }
-
-//    public Stack<Node> getPath() {
-//        return this.path;
-//    }
 
     /**
      * Find the adjacent unvisited nodes given a current node.
