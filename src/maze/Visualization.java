@@ -73,10 +73,6 @@ public class Visualization extends JPanel {
                         randomizedDFS.generateMaze();
                         startNode = maze.getMaze()[randomizedDFS.getR1()][randomizedDFS.getC1()];
                         endNode = maze.getMaze()[randomizedDFS.getR2()][randomizedDFS.getC2()];
-//                        startNode = new Node(randomizedDFS.getR1(), randomizedDFS.getC1());
-//                        endNode = new Node(randomizedDFS.getR2(), randomizedDFS.getC2());
-
-//                        maze.update();
 
                     }
             }).start();
@@ -88,19 +84,6 @@ public class Visualization extends JPanel {
                 int selectedIndex = pathFindingComboBox.getSelectedIndex();
                 if (selectedIndex == 0) {
                     DepthFirstSearch dfs = new DepthFirstSearch(maze, startNode, endNode);
-
-
-//                paths = dfs.pathsFromStartToEnd();
-
-
-//                if (dfs.hasPathTo(endNode)) {
-//                    for (Node p : dfs.pathTo(endNode)) {
-//                        path.add(p);
-//                    }
-//                }
-//                path = dfs.getPath();
-
-//                    maze.update();
 
                 }
                 }).start();
@@ -128,39 +111,6 @@ public class Visualization extends JPanel {
 
 
     }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        if (paths != null) {
-            List<Node> aPath = paths.get(paths.size() - 1);
-
-            for (Node node : aPath) {
-                g.setColor(Color.magenta);
-                g.fillRect(node.getRow(), node.getCol(), 25, 25);
-            }
-        }
-//        for (Node node : path) {
-//            g.setColor(Color.magenta);
-//            g.fillRect(node.getRow(), node.getCol(), 25, 25);
-//        }
-//        for (int row = 0; row < maze.getMaze().length; row++) {
-//            for (int col = 0; col < maze.getMaze()[0].length; col++) {
-//
-//                if (maze.getMaze()[row][col].isStart() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.green);
-//                else if (maze.getMaze()[row][col].isEnd() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.red);
-//                else if (!maze.getMaze()[row][col].isWall())  g.setColor(Color.white);
-//                else if (maze.getMaze()[row][col].isWall()) g.setColor(Color.black);
-//
-//
-//                // Fill rect according to what each node is
-//                g.fillRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
-//
-//                // Draw rectangle borders
-//                g.setColor(Color.BLACK);
-//                g.drawRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
-//            }
-//        }
 
 
     }
