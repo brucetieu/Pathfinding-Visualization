@@ -2,7 +2,6 @@ package maze;
 
 import pathfinding.DepthFirstSearch;
 import pathfinding.Node;
-import utils.Point;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -12,11 +11,8 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -41,6 +37,7 @@ public class Visualization extends JPanel {
     private final String[] pathFindingOptions = {"Depth First Search"};
 
     private List<Node> path = new ArrayList<>();
+    private List<List<Node>> paths;
 
 
     public Visualization() {
@@ -68,36 +65,47 @@ public class Visualization extends JPanel {
 
 
         generateMazeBtn.addActionListener(e -> {
+            new Thread(() -> {
                     int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
                     if (selectedIndex == 0) {
-                        RandomizedDFS randomizedDFS = new RandomizedDFS(maze.getMaze());
+                        RandomizedDFS randomizedDFS = new RandomizedDFS(maze);
                         maze.resetMaze();
                         randomizedDFS.generateMaze();
-                        startNode = new Node(randomizedDFS.getR1(), randomizedDFS.getC1());
-                        endNode = new Node(randomizedDFS.getR2(), randomizedDFS.getC2());
+                        startNode = maze.getMaze()[randomizedDFS.getR1()][randomizedDFS.getC1()];
+                        endNode = maze.getMaze()[randomizedDFS.getR2()][randomizedDFS.getC2()];
+//                        startNode = new Node(randomizedDFS.getR1(), randomizedDFS.getC1());
+//                        endNode = new Node(randomizedDFS.getR2(), randomizedDFS.getC2());
 
-                        maze.update();
+//                        maze.update();
 
                     }
+            }).start();
         });
 
 
-        solveMazeBtn.addActionListener(e -> {
-            int selectedIndex = pathFindingComboBox.getSelectedIndex();
-            if (selectedIndex == 0) {
-                DepthFirstSearch dfs = new DepthFirstSearch(maze.getMaze(), startNode, endNode);
+            solveMazeBtn.addActionListener(e -> {
+                new Thread(() -> {
+                int selectedIndex = pathFindingComboBox.getSelectedIndex();
+                if (selectedIndex == 0) {
+                    DepthFirstSearch dfs = new DepthFirstSearch(maze, startNode, endNode);
 
-                if (dfs.hasPathTo(endNode)) {
-                    for (Node p : dfs.pathTo(endNode)) {
-                        path.add(p);
-                    }
+
+//                paths = dfs.pathsFromStartToEnd();
+
+
+//                if (dfs.hasPathTo(endNode)) {
+//                    for (Node p : dfs.pathTo(endNode)) {
+//                        path.add(p);
+//                    }
+//                }
+//                path = dfs.getPath();
+
+//                    maze.update();
+
                 }
-                path = dfs.getPath();
+                }).start();
+            });
 
-                maze.update();
-
-            }
-        });
 
         controllerPanel.add(mazeOptionsLabel);
         controllerPanel.add(mazeOptionsComboBox);
@@ -124,10 +132,18 @@ public class Visualization extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (Node node : path) {
-            g.setColor(Color.magenta);
-            g.fillRect(node.getRow(), node.getCol(), 25, 25);
+        if (paths != null) {
+            List<Node> aPath = paths.get(paths.size() - 1);
+
+            for (Node node : aPath) {
+                g.setColor(Color.magenta);
+                g.fillRect(node.getRow(), node.getCol(), 25, 25);
+            }
         }
+//        for (Node node : path) {
+//            g.setColor(Color.magenta);
+//            g.fillRect(node.getRow(), node.getCol(), 25, 25);
+//        }
 //        for (int row = 0; row < maze.getMaze().length; row++) {
 //            for (int col = 0; col < maze.getMaze()[0].length; col++) {
 //
