@@ -1,6 +1,7 @@
 package maze;
 
 import pathfinding.Node;
+import utils.Delay;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RandomizedDFS{
 
-    private Node[][] maze;
+    private Maze maze;
     private boolean[][] visited;  // Maintain a 2d boolean array to mark which nodes have been visited.
 
     private Random rand = new Random();
@@ -29,10 +30,10 @@ public class RandomizedDFS{
     private int r1, r2, c1, c2;
     private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    public RandomizedDFS(Node[][] maze) {
+    public RandomizedDFS(Maze maze) {
         this.maze = maze;
-        width = this.maze[0].length;
-        height = this.maze.length;
+        width = this.maze.getMaze()[0].length;
+        height = this.maze.getMaze().length;
 
         this.visited = new boolean[height][width];
     }
@@ -96,8 +97,10 @@ public class RandomizedDFS{
 
             // Choose one of the neighboring cells (given randomly).
             if (!this.visited[node.getRow()][node.getCol()]) {
-                this.maze[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
+                this.maze.getMaze()[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
 
+                Delay.delay(5);
+                this.maze.update();
                 dfs(node.getRow(), node.getCol());  // Invoke dfs recursively for a chosen cell.
             }
         }
@@ -114,20 +117,20 @@ public class RandomizedDFS{
         List<Node> adjNeighbors = new ArrayList<>();
 
         // Top
-        if (row-1 >= 0 && this.maze[row-1][col].isWall()) {
-            adjNeighbors.add(new Node(row-1, col, true, false, false, false));
+        if (row-1 >= 0 && this.maze.getMaze()[row-1][col].isWall()) {
+            adjNeighbors.add(new Node(row-1, col, true, false, false, false, false));
         }
         // Bottom
-        if (row+1 < height && this.maze[row+1][col].isWall()) {
-            adjNeighbors.add(new Node(row+1, col, true, false, false, false));
+        if (row+1 < height && this.maze.getMaze()[row+1][col].isWall()) {
+            adjNeighbors.add(new Node(row+1, col, true, false, false, false, false));
         }
         // Left
-        if (col-1 >= 0 && this.maze[row][col-1].isWall()) {
-            adjNeighbors.add(new Node(row, col-1, true, false, false, false));
+        if (col-1 >= 0 && this.maze.getMaze()[row][col-1].isWall()) {
+            adjNeighbors.add(new Node(row, col-1, true, false, false, false, false));
         }
         // Right
-        if (col+1 < width && this.maze[row][col+1].isWall()) {
-            adjNeighbors.add(new Node(row, col+1, true, false, false, false));
+        if (col+1 < width && this.maze.getMaze()[row][col+1].isWall()) {
+            adjNeighbors.add(new Node(row, col+1, true, false, false, false, false));
         }
 
         // Important! We must shuffle the list randomly, hence 'randomized' dfs.
@@ -147,8 +150,8 @@ public class RandomizedDFS{
         c1 = rand.nextInt(width);
         while (c1 % 2 == 0) c1 = rand.nextInt(width);
 
-        this.maze[r1][c1].setStart(true);
-        this.maze[r1][c1].setWall(false);
+        this.maze.getMaze()[r1][c1].setStart(true);
+        this.maze.getMaze()[r1][c1].setWall(false);
     }
 
     /**
@@ -163,8 +166,8 @@ public class RandomizedDFS{
         c2 = rand.nextInt(width);
         while (c2 % 2 != 0) c2 = rand.nextInt(width);
 
-        this.maze[r2][c2].setEnd(true);
-        this.maze[r2][c2].setWall(false);
+        this.maze.getMaze()[r2][c2].setEnd(true);
+        this.maze.getMaze()[r2][c2].setWall(false);
     }
 
 }
