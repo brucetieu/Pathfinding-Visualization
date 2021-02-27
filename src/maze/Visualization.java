@@ -2,6 +2,7 @@ package maze;
 
 import pathfinding.DepthFirstSearch;
 import pathfinding.Node;
+import utils.MazeUtils;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -21,6 +22,8 @@ import java.util.concurrent.ScheduledExecutorService;
 public class Visualization extends JPanel {
 
     private Maze maze;
+    private MazeUtils mazeUtils;
+
     private final int START_X = 250;
     private final int START_Y = 20;
     private final int RECT_SIZE = 25;
@@ -33,18 +36,13 @@ public class Visualization extends JPanel {
     private Node startNode;
     private Node endNode;
 
-    private final String[] mazeGenerationOptions = {"Random DFS", "Recursive Division", "Prim's", "Kruskal's"};
+    private final String[] mazeGenerationOptions = {"Random DFS", "Open Maze", "Recursive Division", "Prim's", "Kruskal's"};
     private final String[] pathFindingOptions = {"Depth First Search"};
-
-    private List<Node> path = new ArrayList<>();
-    private List<List<Node>> paths;
 
 
     public Visualization() {
 
         JFrame jFrame = new JFrame();
-
-        maze = new Maze();
 
         mainPanel = new JPanel();
         controllerPanel = new JPanel();
@@ -59,35 +57,61 @@ public class Visualization extends JPanel {
         JLabel pathFindingOptionsLabel = new JLabel("Choose a Path Finding method");
         JComboBox pathFindingComboBox = new JComboBox(pathFindingOptions);
 
+
         JButton solveMazeBtn = new JButton("Solve Maze");
         generateMazeBtn = new JButton("Generate Maze");
-        mainPanel.add(maze);
+
+
+//        mazeUtils = new MazeUtils(maze);
+//        startNode = mazeUtils.generateStartNode();
+//        endNode = mazeUtils.generateEndNode();
+//        startNode = new Node(0,0);
+//        endNode = new Node(Maze.MAX_HEIGHT-1, Maze.MAX_WIDTH-1);
+
+        maze = new Maze();
 
 
         generateMazeBtn.addActionListener(e -> {
+            startNode = mazeUtils.generateStartNode();
+            endNode = mazeUtils.generateEndNode();
             new Thread(() -> {
-                    int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
-                    if (selectedIndex == 0) {
-                        RandomizedDFS randomizedDFS = new RandomizedDFS(maze);
-                        maze.resetMaze();
-                        randomizedDFS.generateMaze();
-                        startNode = maze.getMaze()[randomizedDFS.getR1()][randomizedDFS.getC1()];
-                        endNode = maze.getMaze()[randomizedDFS.getR2()][randomizedDFS.getC2()];
+                int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
+                if (selectedIndex == 0) {
+                    maze.resetMaze(startNode, endNode);
+                    RandomizedDFS randomizedDFS = new RandomizedDFS(maze, startNode, endNode);
+                    randomizedDFS.generateMaze();
+//                    startNode = mazeUtils.generateStartNode();
+//                    endNode = mazeUtils.generateEndNode();
 
-                    }
+//                    startNode = maze.getMaze()[mazeUtils.getR1()][mazeUtils.getC1()];
+//                    endNode = maze.getMaze()[mazeUtils.getR2()][mazeUtils.getC2()];
+//                    startNode = maze.getMaze()[randomizedDFS.getR1()][randomizedDFS.getC1()];
+//                    endNode = maze.getMaze()[randomizedDFS.getR2()][randomizedDFS.getC2()];
+
+                }
+
+                else if (selectedIndex == 1) {
+                    OpenMaze openMaze = new OpenMaze(maze);
+//                    maze.resetMaze();
+//                    openMaze.generateMaze();
+//                    startNode = maze.getMaze()[mazeUtils.getR1()][mazeUtils.getC1()];
+//                    endNode = maze.getMaze()[mazeUtils.getR2()][mazeUtils.getC2()];
+                }
             }).start();
         });
 
 
-            solveMazeBtn.addActionListener(e -> {
-                new Thread(() -> {
+        solveMazeBtn.addActionListener(e -> {
+            new Thread(() -> {
                 int selectedIndex = pathFindingComboBox.getSelectedIndex();
                 if (selectedIndex == 0) {
+                    System.out.println("this workds");
+                    System.out.println(startNode.getRow() + " " + startNode.getCol());
                     DepthFirstSearch dfs = new DepthFirstSearch(maze, startNode, endNode);
 
                 }
-                }).start();
-            });
+            }).start();
+        });
 
 
         controllerPanel.add(mazeOptionsLabel);
@@ -97,7 +121,7 @@ public class Visualization extends JPanel {
         controllerPanel.add(pathFindingComboBox);
         controllerPanel.add(solveMazeBtn);
 
-
+        mainPanel.add(maze);
 
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(mainPanel);
@@ -113,8 +137,7 @@ public class Visualization extends JPanel {
     }
 
 
-    }
-
-
-
 }
+
+
+
