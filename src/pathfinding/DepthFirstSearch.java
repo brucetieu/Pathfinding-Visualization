@@ -12,8 +12,6 @@ public class DepthFirstSearch {
 
     private Maze maze;
 
-    private int height;
-    private int width;
     private Node startNode;
     private Node endNode;
 
@@ -29,13 +27,11 @@ public class DepthFirstSearch {
      */
     public DepthFirstSearch(Maze maze, Node startNode, Node endNode) {
         this.maze = maze;
-        this.width = this.maze.getMaze()[0].length;
-        this.height = this.maze.getMaze().length;
 
         this.startNode = startNode;
         this.endNode = endNode;
 
-        this.edgeTo = new Node[height][width];
+        this.edgeTo = new Node[Maze.MAX_HEIGHT][Maze.MAX_WIDTH];
 
         this.path = new Stack<>();
 
@@ -107,7 +103,7 @@ public class DepthFirstSearch {
             adjNeighbors.add(new Node(row-1, col, false, false, false, false, false));
         }
         // Bottom
-        if (row+1 < height && !this.maze.getMaze()[row+1][col].isWall()) {
+        if (row+1 < Maze.MAX_HEIGHT && !this.maze.getMaze()[row+1][col].isWall()) {
             adjNeighbors.add(new Node(row+1, col, false, false, false, false, false));
         }
         // Left
@@ -115,7 +111,7 @@ public class DepthFirstSearch {
             adjNeighbors.add(new Node(row, col-1, false, false, false, false, false));
         }
         // Right
-        if (col+1 < width && !this.maze.getMaze()[row][col+1].isWall()) {
+        if (col+1 < Maze.MAX_WIDTH && !this.maze.getMaze()[row][col+1].isWall()) {
             adjNeighbors.add(new Node(row, col+1, false, false, false, false, false));
         }
 

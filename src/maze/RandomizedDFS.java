@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RandomizedDFS{
 
-    private Maze maze;
+    private Maze maze
     private boolean[][] marked;
     private Node startNode;
     private Node endNode;
