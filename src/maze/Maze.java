@@ -30,7 +30,7 @@ public class Maze extends JPanel {
     public void resetMaze() {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
-                Node node = new Node(row, col, true, false, false, false);
+                Node node = new Node(row, col, true, false, false, false, false);
                 maze[row][col] = node; // All paths are closed.
             }
         }
@@ -42,7 +42,8 @@ public class Maze extends JPanel {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
 
-                if (maze[row][col].isVisited() && !maze[row][col].isWall()) g.setColor(Color.blue);
+                if (maze[row][col].isPath() && maze[row][col].isVisited() && !maze[row][col].isWall()) g.setColor(Color.magenta);
+                else if (maze[row][col].isVisited() && !maze[row][col].isWall() && !maze[row][col].isStart()) g.setColor(Color.blue);
                 else if (maze[row][col].isStart() && !maze[row][col].isWall()) g.setColor(Color.green);
                 else if (maze[row][col].isEnd() && !maze[row][col].isWall()) g.setColor(Color.red);
                 else if (!maze[row][col].isWall())  g.setColor(Color.white);
