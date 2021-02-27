@@ -40,6 +40,8 @@ public class Maze extends JPanel {
                 maze[row][col] = node; // All paths are closed.
             }
         }
+
+        // Set the start and end nodes in the maze.
         int r1 = startNode.getRow();
         int c1 = startNode.getCol();
         int r2 = endNode.getRow();

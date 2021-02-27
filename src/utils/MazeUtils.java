@@ -7,13 +7,8 @@ import java.util.Random;
 
 public class MazeUtils {
 
-//    private Maze maze;
     private static int r1, r2, c1, c2;
     private static Random rand = new Random();
-
-//    public MazeUtils(Maze maze) {
-//        this.maze = maze;
-//    }
 
     public static int getR1() {
         return r1;
@@ -56,11 +51,6 @@ public class MazeUtils {
         while (c1 % 2 == 0) c1 = rand.nextInt(Maze.MAX_WIDTH);
 
         return new Node(r1, c1);
-//        return new Node(r1, c1, false, true, false, false, false);
-//        Maze.maze[r1][c1].setStart(true);
-//        Maze.maze[r1][c1].setWall(false);
-
-//        return Maze.maze[r1][c1];
     }
 
     /**
@@ -75,11 +65,7 @@ public class MazeUtils {
         c2 = rand.nextInt(Maze.MAX_WIDTH);
         while (c2 % 2 != 0) c2 = rand.nextInt(Maze.MAX_WIDTH);
 
-//        return new Node(r2, c2, false, false, true, false, false);
-//        Maze.maze[r2][c2].setEnd(true);
         return new Node(r2, c2);
-//        Maze.maze[r2][c2].setWall(false);
-//
-//        return Maze.maze[r2][c2];
+
     }
 }

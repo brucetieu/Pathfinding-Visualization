@@ -61,13 +61,6 @@ public class Visualization extends JPanel {
         JButton solveMazeBtn = new JButton("Solve Maze");
         generateMazeBtn = new JButton("Generate Maze");
 
-
-//        mazeUtils = new MazeUtils(maze);
-//        startNode = mazeUtils.generateStartNode();
-//        endNode = mazeUtils.generateEndNode();
-//        startNode = new Node(0,0);
-//        endNode = new Node(Maze.MAX_HEIGHT-1, Maze.MAX_WIDTH-1);
-
         maze = new Maze();
 
 
@@ -80,13 +73,6 @@ public class Visualization extends JPanel {
                     maze.resetMaze(startNode, endNode);
                     RandomizedDFS randomizedDFS = new RandomizedDFS(maze, startNode, endNode);
                     randomizedDFS.generateMaze();
-//                    startNode = mazeUtils.generateStartNode();
-//                    endNode = mazeUtils.generateEndNode();
-
-//                    startNode = maze.getMaze()[mazeUtils.getR1()][mazeUtils.getC1()];
-//                    endNode = maze.getMaze()[mazeUtils.getR2()][mazeUtils.getC2()];
-//                    startNode = maze.getMaze()[randomizedDFS.getR1()][randomizedDFS.getC1()];
-//                    endNode = maze.getMaze()[randomizedDFS.getR2()][randomizedDFS.getC2()];
 
                 }
 
