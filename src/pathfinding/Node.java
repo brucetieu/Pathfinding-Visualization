@@ -9,6 +9,7 @@ public class Node {
     private boolean isWall;
     private boolean isStart;
     private boolean isEnd;
+    private boolean isPath;
     private boolean isVisited;
 
     /**
@@ -19,13 +20,14 @@ public class Node {
      * @param isStart Is this node the start node?
      * @param isEnd Is this node the end node?
      */
-    public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd, boolean isVisited) {
+    public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd, boolean isVisited, boolean isPath) {
         this.row = row;
         this.col = col;
         this.isWall = isWall;
         this.isStart = isStart;
         this.isEnd = isEnd;
         this.isVisited = isVisited;
+        this.isPath = isPath;
     }
 
     public Node(int row, int col) {
@@ -81,12 +83,20 @@ public class Node {
         isVisited = visited;
     }
 
+    public boolean isPath() {
+        return isPath;
+    }
+
+    public void setPath(boolean path) {
+        isPath = path;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return row == node.row && col == node.col && isWall == node.isWall && isStart == node.isStart && isEnd == node.isEnd && isVisited == node.isVisited;
+        return row == node.row && col == node.col;
     }
 
     @Override
