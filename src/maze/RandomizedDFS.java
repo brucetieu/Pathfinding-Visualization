@@ -2,6 +2,7 @@ package maze;
 
 import pathfinding.Node;
 import utils.Delay;
+import utils.MazeUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,65 +23,65 @@ import java.util.concurrent.TimeUnit;
 public class RandomizedDFS{
 
     private Maze maze;
-    private boolean[][] visited;  // Maintain a 2d boolean array to mark which nodes have been visited.
+    private boolean[][] marked;
+    private Node startNode;
+    private Node endNode;
 
-    private Random rand = new Random();
-    private int height;
-    private int width;
-    private int r1, r2, c1, c2;
-    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
-    public RandomizedDFS(Maze maze) {
+    public RandomizedDFS(Maze maze, Node startNode, Node endNode) {
         this.maze = maze;
-        width = this.maze.getMaze()[0].length;
-        height = this.maze.getMaze().length;
+//        width = this.maze.getMaze()[0].length;
+//        height = this.maze.getMaze().length;
+//
+        this.startNode = startNode;
+        this.endNode = endNode;
 
-        this.visited = new boolean[height][width];
+        this.marked = new boolean[Maze.MAX_HEIGHT][Maze.MAX_WIDTH];
     }
 
-    public int getR1() {
-        return r1;
-    }
-
-    public void setR1(int r1) {
-        this.r1 = r1;
-    }
-
-    public int getR2() {
-        return r2;
-    }
-
-    public void setR2(int r2) {
-        this.r2 = r2;
-    }
-
-    public int getC1() {
-        return c1;
-    }
-
-    public void setC1(int c1) {
-        this.c1 = c1;
-    }
-
-    public int getC2() {
-        return c2;
-    }
-
-    public void setC2(int c2) {
-        this.c2 = c2;
-    }
+//    public int getR1() {
+//        return r1;
+//    }
+//
+//    public void setR1(int r1) {
+//        this.r1 = r1;
+//    }
+//
+//    public int getR2() {
+//        return r2;
+//    }
+//
+//    public void setR2(int r2) {
+//        this.r2 = r2;
+//    }
+//
+//    public int getC1() {
+//        return c1;
+//    }
+//
+//    public void setC1(int c1) {
+//        this.c1 = c1;
+//    }
+//
+//    public int getC2() {
+//        return c2;
+//    }
+//
+//    public void setC2(int c2) {
+//        this.c2 = c2;
+//    }
 
     /**
      * Generate the maze with randomized dfs.
      */
     public void generateMaze() {
 
-        generateStartNode();
-        generateEndNode();
-
+//        mazeUtils.generateStartNode();
+//        mazeUtils.generateEndNode();
         // DFS from the start node.
-        dfs(r1, c1);
+//        dfs(mazeUtils.getR1(), mazeUtils.getC1());
+        dfs(this.startNode.getRow(), this.startNode.getCol());
     }
+
 
     /**
      * Perform a dfs on a node.
@@ -90,13 +91,13 @@ public class RandomizedDFS{
     private void dfs(int row, int col) {
 
         // Mark current cell as visited.
-        this.visited[row][col] = true;
+        this.marked[row][col] = true;
 
         // While the current cell has any unvisited neighbor cells...
         for (Node node : findAdjacent(row, col)) {
 
             // Choose one of the neighboring cells (given randomly).
-            if (!this.visited[node.getRow()][node.getCol()]) {
+            if (!this.marked[node.getRow()][node.getCol()]) {
                 this.maze.getMaze()[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
 
                 Delay.delay(5);
@@ -121,7 +122,7 @@ public class RandomizedDFS{
             adjNeighbors.add(new Node(row-1, col, true, false, false, false, false));
         }
         // Bottom
-        if (row+1 < height && this.maze.getMaze()[row+1][col].isWall()) {
+        if (row+1 < Maze.MAX_HEIGHT && this.maze.getMaze()[row+1][col].isWall()) {
             adjNeighbors.add(new Node(row+1, col, true, false, false, false, false));
         }
         // Left
@@ -129,7 +130,7 @@ public class RandomizedDFS{
             adjNeighbors.add(new Node(row, col-1, true, false, false, false, false));
         }
         // Right
-        if (col+1 < width && this.maze.getMaze()[row][col+1].isWall()) {
+        if (col+1 < Maze.MAX_WIDTH && this.maze.getMaze()[row][col+1].isWall()) {
             adjNeighbors.add(new Node(row, col+1, true, false, false, false, false));
         }
 
@@ -142,32 +143,32 @@ public class RandomizedDFS{
     /**
      * Generate a start node at an odd place on the maze.
      */
-    private void generateStartNode() {
-        r1 = rand.nextInt(height);
-        while (r1 % 2 == 0) r1 = rand.nextInt(height);
-
-        // Generate random odd col for end node.
-        c1 = rand.nextInt(width);
-        while (c1 % 2 == 0) c1 = rand.nextInt(width);
-
-        this.maze.getMaze()[r1][c1].setStart(true);
-        this.maze.getMaze()[r1][c1].setWall(false);
-    }
+//    private void generateStartNode() {
+//        r1 = rand.nextInt(height);
+//        while (r1 % 2 == 0) r1 = rand.nextInt(height);
+//
+//        // Generate random odd col for end node.
+//        c1 = rand.nextInt(width);
+//        while (c1 % 2 == 0) c1 = rand.nextInt(width);
+//
+//        this.maze.getMaze()[r1][c1].setStart(true);
+//        this.maze.getMaze()[r1][c1].setWall(false);
+//    }
 
     /**
      * Generate an end node at an even place on the maze. Do this so that startNode != endNode.
      */
-    private void generateEndNode() {
-        // Generate random even row for start node.
-        r2 = rand.nextInt(height);
-        while (r2 % 2 != 0) r2 = rand.nextInt(height);
-
-        // Generate random even col for end node.
-        c2 = rand.nextInt(width);
-        while (c2 % 2 != 0) c2 = rand.nextInt(width);
-
-        this.maze.getMaze()[r2][c2].setEnd(true);
-        this.maze.getMaze()[r2][c2].setWall(false);
-    }
+//    private void generateEndNode() {
+//        // Generate random even row for start node.
+//        r2 = rand.nextInt(height);
+//        while (r2 % 2 != 0) r2 = rand.nextInt(height);
+//
+//        // Generate random even col for end node.
+//        c2 = rand.nextInt(width);
+//        while (c2 % 2 != 0) c2 = rand.nextInt(width);
+//
+//        this.maze.getMaze()[r2][c2].setEnd(true);
+//        this.maze.getMaze()[r2][c2].setWall(false);
+//    }
 
 }
