@@ -14,15 +14,12 @@ public class Maze extends JPanel {
     public static final int MAX_WIDTH = 38;
 
     private Node[][] maze = new Node[MAX_HEIGHT][MAX_WIDTH];
-
-    private final int START_X = 0;
-    private final int START_Y = 0;
     private final int RECT_SIZE = 25;
 
     public Maze() {
 
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        for (int row = 0; row < MAX_HEIGHT; row++) {
+            for (int col = 0; col < MAX_WIDTH; col++) {
                 Node node = new Node(row, col, true, false, false, false, false);
                 maze[row][col] = node; // All paths are closed.
             }
@@ -34,8 +31,8 @@ public class Maze extends JPanel {
     }
 
     public void resetMaze(Node startNode, Node endNode) {
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        for (int row = 0; row < MAX_HEIGHT; row++) {
+            for (int col = 0; col < MAX_WIDTH; col++) {
                 Node node = new Node(row, col, true, false, false, false, false);
                 maze[row][col] = node; // All paths are closed.
             }
@@ -56,8 +53,8 @@ public class Maze extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        for (int row = 0; row < MAX_HEIGHT; row++) {
+            for (int col = 0; col < MAX_WIDTH; col++) {
 
                 if (maze[row][col].isPath() && maze[row][col].isVisited() && !maze[row][col].isWall())
                     g.setColor(Color.magenta);
@@ -68,12 +65,12 @@ public class Maze extends JPanel {
                 else if (!maze[row][col].isWall()) g.setColor(Color.white);
                 else if (maze[row][col].isWall()) g.setColor(Color.black);
 
-                // Fill rect according to what each node is
-                g.fillRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
+                // Multiply RECT_SIZE by row and col to place it correctly on the maze.
+                g.fillRect(RECT_SIZE * col, RECT_SIZE * row, RECT_SIZE, RECT_SIZE);
 
-                // Draw rectangle borders
+                // Draw rectangle's borders.
                 g.setColor(Color.BLACK);
-                g.drawRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
+                g.drawRect(RECT_SIZE * col, RECT_SIZE * row, RECT_SIZE, RECT_SIZE);
             }
         }
 

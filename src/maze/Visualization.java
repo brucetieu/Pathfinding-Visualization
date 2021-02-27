@@ -4,16 +4,18 @@ import pathfinding.DepthFirstSearch;
 import pathfinding.Node;
 import utils.MazeUtils;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -22,11 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public class Visualization extends JPanel {
 
     private Maze maze;
-    private MazeUtils mazeUtils;
 
-    private final int START_X = 250;
-    private final int START_Y = 20;
-    private final int RECT_SIZE = 25;
     private JPanel mainPanel;
     private JPanel controllerPanel;
     private JButton generateMazeBtn;
@@ -65,8 +63,8 @@ public class Visualization extends JPanel {
 
 
         generateMazeBtn.addActionListener(e -> {
-            startNode = mazeUtils.generateStartNode();
-            endNode = mazeUtils.generateEndNode();
+            startNode = MazeUtils.generateStartNode();
+            endNode = MazeUtils.generateEndNode();
             new Thread(() -> {
                 int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
                 if (selectedIndex == 0) {
@@ -78,10 +76,9 @@ public class Visualization extends JPanel {
 
                 else if (selectedIndex == 1) {
                     OpenMaze openMaze = new OpenMaze(maze);
-//                    maze.resetMaze();
-//                    openMaze.generateMaze();
-//                    startNode = maze.getMaze()[mazeUtils.getR1()][mazeUtils.getC1()];
-//                    endNode = maze.getMaze()[mazeUtils.getR2()][mazeUtils.getC2()];
+                    maze.resetMaze(startNode, endNode);
+                    openMaze.generateMaze();
+
                 }
             }).start();
         });
@@ -91,8 +88,6 @@ public class Visualization extends JPanel {
             new Thread(() -> {
                 int selectedIndex = pathFindingComboBox.getSelectedIndex();
                 if (selectedIndex == 0) {
-                    System.out.println("this workds");
-                    System.out.println(startNode.getRow() + " " + startNode.getCol());
                     DepthFirstSearch dfs = new DepthFirstSearch(maze, startNode, endNode);
 
                 }

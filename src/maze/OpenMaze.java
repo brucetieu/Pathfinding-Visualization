@@ -14,8 +14,8 @@ public class OpenMaze {
     }
 
     public void generateMaze() {
-        for (int row = 0; row < this.maze.getMaze().length; row++) {
-            for (int col = 0; col < this.maze.getMaze()[0].length; col++) {
+        for (int row = 0; row < Maze.MAX_HEIGHT; row++) {
+            for (int col = 0; col < Maze.MAX_WIDTH; col++) {
                 Delay.delay(5);
                 this.maze.update();
                 this.maze.getMaze()[row][col].setWall(false);
