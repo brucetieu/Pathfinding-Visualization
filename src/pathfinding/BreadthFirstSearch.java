@@ -2,9 +2,7 @@ package pathfinding;
 
 import maze.Maze;
 import utils.Delay;
-import utils.SeparateThread;
 
-import javax.swing.*;
 import java.util.*;
 
 public class BreadthFirstSearch {
@@ -61,82 +59,43 @@ public class BreadthFirstSearch {
             int row = currentNode.getRow();
             int col = currentNode.getCol();
 
-//            Delay.delay(3);
-//            maze.update();
-            if (row-1 >= 0 && !this.maze.maze[row - 1][col].isWall()) {
-                if (!this.maze.maze[row - 1][col].isVisited()) {
-                    this.maze.maze[row - 1][col].setVisited(true);
-//                    Delay.delay(3);
-//                    maze.update();
-                    queue.add(this.maze.maze[row - 1][col]);
-                    this.edgeTo[row - 1][col] = currentNode;
-                }
-            }
-            if (row+1 < Maze.MAX_HEIGHT && !this.maze.maze[row + 1][col].isWall()) {
-                if (!this.maze.maze[row + 1][col].isVisited()) {
-                    this.maze.maze[row + 1][col].setVisited(true);
-//                    Delay.delay(3);
-//                    maze.update();
-                    queue.add(this.maze.maze[row + 1][col]);
-                    this.edgeTo[row + 1][col] = currentNode;
-                }
-            }
-            if (col-1 >= 0 && !this.maze.maze[row][col - 1].isWall()) {
-                if (!this.maze.maze[row][col - 1].isVisited()) {
-                    this.maze.maze[row][col - 1].setVisited(true);
-//                    Delay.delay(3);
-//                    maze.update();
-                    queue.add(this.maze.maze[row][col - 1]);
-                    this.edgeTo[row][col - 1] = currentNode;
-                }
-            }
-            if (col+1 < Maze.MAX_WIDTH && !this.maze.maze[row][col + 1].isWall()) {
-                if (!this.maze.maze[row][col + 1].isVisited()) {
-                    this.maze.maze[row][col + 1].setVisited(true);
-//                    Delay.delay(3);
-//                    maze.update();
-                    queue.add(this.maze.maze[row][col + 1]);
-                    this.edgeTo[row][col + 1] = currentNode;
-                }
-            }
+            findAdjacent(row, col, queue, currentNode);
 
             Delay.delay(5);
             maze.update();
 
-//            for (Node node : findAdjacent(currentNode.getRow(), currentNode.getCol())) {
-//                if (!maze.maze[node.getRow()][node.getCol()].isVisited()) {
-//                    this.edgeTo[node.getRow()][node.getCol()] = currentNode;
-//                    this.maze.maze[currentNode.getRow()][currentNode.getCol()].setVisited(true);
-//                    Delay.delay(5);
-//                    maze.update();
-//                    queue.add(node);
-//                }
-//            }
         }
         return null;
     }
 
-    private List<Node> findAdjacent(int row, int col) {
-        List<Node> adjNeighbors = new ArrayList<>();
-
-        // Top
-        if (row - 1 >= 0 && !this.maze.maze[row - 1][col].isWall()) {
-            adjNeighbors.add(this.maze.maze[row - 1][col]);
+    private void findAdjacent(int row, int col, Queue<Node> queue, Node currentNode) {
+        if (row-1 >= 0 && !this.maze.maze[row - 1][col].isWall()) {
+            if (!this.maze.maze[row - 1][col].isVisited()) {
+                this.maze.maze[row - 1][col].setVisited(true);
+                queue.add(this.maze.maze[row - 1][col]);
+                this.edgeTo[row - 1][col] = currentNode;
+            }
         }
-        // Bottom
-        if (row + 1 < Maze.MAX_HEIGHT && !this.maze.maze[row + 1][col].isWall()) {
-            adjNeighbors.add(this.maze.maze[row + 1][col]);
+        if (row+1 < Maze.MAX_HEIGHT && !this.maze.maze[row + 1][col].isWall()) {
+            if (!this.maze.maze[row + 1][col].isVisited()) {
+                this.maze.maze[row + 1][col].setVisited(true);
+                queue.add(this.maze.maze[row + 1][col]);
+                this.edgeTo[row + 1][col] = currentNode;
+            }
         }
-        // Left
-        if (col - 1 >= 0 && !this.maze.maze[row][col - 1].isWall()) {
-            adjNeighbors.add(this.maze.maze[row][col - 1]);
+        if (col-1 >= 0 && !this.maze.maze[row][col - 1].isWall()) {
+            if (!this.maze.maze[row][col - 1].isVisited()) {
+                this.maze.maze[row][col - 1].setVisited(true);
+                queue.add(this.maze.maze[row][col - 1]);
+                this.edgeTo[row][col - 1] = currentNode;
+            }
         }
-        // Right
-        if (col + 1 < Maze.MAX_WIDTH && !this.maze.maze[row][col + 1].isWall()) {
-            adjNeighbors.add(this.maze.maze[row][col + 1]);
+        if (col+1 < Maze.MAX_WIDTH && !this.maze.maze[row][col + 1].isWall()) {
+            if (!this.maze.maze[row][col + 1].isVisited()) {
+                this.maze.maze[row][col + 1].setVisited(true);
+                queue.add(this.maze.maze[row][col + 1]);
+                this.edgeTo[row][col + 1] = currentNode;
+            }
         }
-
-        return adjNeighbors;
-
     }
 }
