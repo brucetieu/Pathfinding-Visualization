@@ -5,7 +5,12 @@ import pathfinding.DepthFirstSearch;
 import pathfinding.Node;
 import utils.MazeUtils;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingWorker;
+import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
@@ -13,11 +18,11 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 
-// Visualizing the maze
+/**
+ * Visualizing the maze. Extend JPanel
+ */
 public class Visualization extends JPanel {
 
     private Maze maze;
@@ -25,8 +30,6 @@ public class Visualization extends JPanel {
     private JPanel mainPanel;
     private JPanel controllerPanel;
     private JButton generateMazeBtn;
-
-    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     private Node startNode;
     private Node endNode;
@@ -63,6 +66,7 @@ public class Visualization extends JPanel {
             startNode = MazeUtils.generateStartNode();
             endNode = MazeUtils.generateEndNode();
 
+            // Since Swing is single threaded, using a SwingWorker allows us to to perform multiple lengthy GUI-interaction tasks in a background thread.
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
@@ -85,7 +89,7 @@ public class Visualization extends JPanel {
             };
             worker.execute();
         });
-        
+
         solveMazeBtn.addActionListener(e -> {
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                 @Override
@@ -123,11 +127,7 @@ public class Visualization extends JPanel {
         jFrame.setTitle("Pathfinding Visualizer");
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);
-
-
     }
-
-
 }
 
 

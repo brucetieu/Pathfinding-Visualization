@@ -5,6 +5,9 @@ import pathfinding.Node;
 
 import java.util.Random;
 
+/**
+ * Static maze utility class.
+ */
 public class MazeUtils {
 
     private static int r1, r2, c1, c2;
@@ -42,6 +45,10 @@ public class MazeUtils {
         this.c2 = c2;
     }
 
+    /**
+     * Generate a start node at an odd place on the maze. Do this so that startNode != endNode.
+     * @return the Node object.
+     */
     public static Node generateStartNode() {
         r1 = rand.nextInt(Maze.MAX_HEIGHT);
         while (r1 % 2 == 0) r1 = rand.nextInt(Maze.MAX_HEIGHT);
@@ -55,6 +62,7 @@ public class MazeUtils {
 
     /**
      * Generate an end node at an even place on the maze. Do this so that startNode != endNode.
+     * @return The node object.
      */
     public static Node generateEndNode() {
         // Generate random even row for start node.

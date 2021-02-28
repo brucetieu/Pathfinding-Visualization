@@ -12,18 +12,13 @@ import java.util.*;
 public class DepthFirstSearch {
 
     private Maze maze;
-
     private Node startNode;
     private Node endNode;
-
     private Node[][] edgeTo;
     private Stack<Node> path;
 
-    private SwingWorker<Void, Void> swingWorker;
-
-
     /**
-     * Initialze variables for the depth first search
+     * Initialize variables for the depth first search
      * @param maze The maze. It's important to pass the maze object in to gain access of the update() method for repainting the maze again.
      * @param startNode The starting position to begin the search.
      * @param endNode The destination node.
@@ -77,6 +72,7 @@ public class DepthFirstSearch {
 
             this.maze.maze[currentNode.getRow()][currentNode.getCol()].setVisited(true);
 
+            // Push adjacent unvisited nodes to the stack.
             for (Node node : findAdjacent(currentNode.getRow(), currentNode.getCol())) {
                 if (!this.maze.maze[node.getRow()][node.getCol()].isVisited()) {
                     this.edgeTo[node.getRow()][node.getCol()] = currentNode;
@@ -90,6 +86,12 @@ public class DepthFirstSearch {
     }
 
 
+    /**
+     * Find adjacent open nodes to the current row, col.
+     * @param row The row of node in the maze.
+     * @param col The col of node in the maze.
+     * @return A list of all adjacent nodes.
+     */
     private List<Node> findAdjacent(int row, int col) {
         List<Node> adjNeighbors = new ArrayList<>();
 

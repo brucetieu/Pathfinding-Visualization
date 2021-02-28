@@ -19,11 +19,16 @@ public class RandomizedDFS {
     private Node startNode;
     private Node endNode;
 
+    /**
+     * Initialize variables for the randomized dfs.
+     * @param maze The maze.
+     * @param startNode The starting node.
+     * @param endNode The ending node (destination).
+     */
     public RandomizedDFS(Maze maze, Node startNode, Node endNode) {
         this.maze = maze;
         this.startNode = startNode;
         this.endNode = endNode;
-
         this.marked = new boolean[Maze.MAX_HEIGHT][Maze.MAX_WIDTH];
     }
 

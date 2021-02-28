@@ -7,17 +7,20 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 
-// Create a maze
+/**
+ * Create a maze. Extend JPanel so that we can use paintComponent to paint the maze.
+ */
 public class Maze extends JPanel {
 
     public static final int MAX_HEIGHT = 31;
     public static final int MAX_WIDTH = 38;
-
     public Node[][] maze = new Node[MAX_HEIGHT][MAX_WIDTH];
     private final int RECT_SIZE = 25;
 
+    /**
+     * Initialize a fully walled maze.
+     */
     public Maze() {
-
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
                 Node node = new Node(row, col, true, false, false, false, false);
@@ -26,11 +29,17 @@ public class Maze extends JPanel {
         }
     }
 
+    /**
+     * Reset the maze to be fully walled with starting and ending nodes.
+     * @param startNode Starting position.
+     * @param endNode Ending position.
+     */
     public void resetMaze(Node startNode, Node endNode) {
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
-                Node node = new Node(row, col, true, false, false, false, false);
-                maze[row][col] = node; // All paths are closed.
+
+                // All paths are closed.
+                maze[row][col] = new Node(row, col, true, false, false, false, false);
             }
         }
 
@@ -46,12 +55,18 @@ public class Maze extends JPanel {
         maze[r2][c2].setWall(false);
     }
 
+    /**
+     * Everytime we instantiate Maze, the maze will be painted accordingly to the colors set below.
+     * @param g Graphics parameter to draw and set colors.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
 
+                // Set the colors according to each node in the maze. E.g if a node has been visited it's colored blue. When I call the update() method below,
+                // The maze will repaint according to the following configurations.
                 if (maze[row][col].isPath() && maze[row][col].isVisited() && !maze[row][col].isWall())
                     g.setColor(Color.magenta);
                 else if (maze[row][col].isVisited() && !maze[row][col].isWall() && !maze[row][col].isStart())
@@ -72,7 +87,10 @@ public class Maze extends JPanel {
 
     }
 
-
+    /**
+     * Need this method to repaint the maze within other classes. The idea is I pass in a Maze object so that I can have access to this method
+     * and can repaint whenever I need. Invoking repaint() calls the paintComponent().
+     */
     public void update() {
         repaint();
     }
