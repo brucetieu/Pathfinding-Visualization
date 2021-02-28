@@ -8,6 +8,7 @@ Maze Algorithms:
 4. Kruskal's Algorithm (hope to implement)
 5. Wilson's Algorithm (hope to implement)
 6. Aldous-Broder Algorithm (hope to implement)
+7. Recursive Division (hope to implement)
 
 
 Pathfinding Algorithms:
