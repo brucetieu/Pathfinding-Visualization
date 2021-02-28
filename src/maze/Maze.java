@@ -2,10 +2,10 @@ package maze;
 
 import pathfinding.Node;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
+
 
 // Create a maze
 public class Maze extends JPanel {
@@ -13,7 +13,7 @@ public class Maze extends JPanel {
     public static final int MAX_HEIGHT = 31;
     public static final int MAX_WIDTH = 38;
 
-    private Node[][] maze = new Node[MAX_HEIGHT][MAX_WIDTH];
+    public Node[][] maze = new Node[MAX_HEIGHT][MAX_WIDTH];
     private final int RECT_SIZE = 25;
 
     public Maze() {
@@ -24,10 +24,6 @@ public class Maze extends JPanel {
                 maze[row][col] = node; // All paths are closed.
             }
         }
-    }
-
-    public Node[][] getMaze() {
-        return maze;
     }
 
     public void resetMaze(Node startNode, Node endNode) {
