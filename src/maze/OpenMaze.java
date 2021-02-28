@@ -18,7 +18,7 @@ public class OpenMaze {
             for (int col = 0; col < Maze.MAX_WIDTH; col++) {
                 Delay.delay(5);
                 this.maze.update();
-                this.maze.getMaze()[row][col].setWall(false);
+                this.maze.maze[row][col].setWall(false);
             }
         }
     }
