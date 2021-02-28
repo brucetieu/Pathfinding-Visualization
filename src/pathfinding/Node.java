@@ -19,6 +19,7 @@ public class Node {
      * @param isWall Is this node a wall?
      * @param isStart Is this node the start node?
      * @param isEnd Is this node the end node?
+     * @param isPath Is this node a part of a path to the end node?
      */
     public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd, boolean isVisited, boolean isPath) {
         this.row = row;
