@@ -1,34 +1,46 @@
 package maze;
 
-import javax.swing.*;
+import pathfinding.BreadthFirstSearch;
+import pathfinding.DepthFirstSearch;
+import pathfinding.Node;
+import utils.MazeUtils;
+
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingWorker;
+import javax.swing.JLabel;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
-// Visualizing the maze
-public class Visualization extends JFrame {
+
+/**
+ * Visualizing the maze. Extend JPanel
+ */
+public class Visualization extends JPanel {
 
     private Maze maze;
-    private final int START_X = 250;
-    private final int START_Y = 20;
-    private final int RECT_SIZE = 25;
+
     private JPanel mainPanel;
     private JPanel controllerPanel;
     private JButton generateMazeBtn;
 
-    private final String[] mazeGenerationOptions = {"Random DFS", "Recursive Division", "Prim's", "Kruskal's"};
+    private Node startNode;
+    private Node endNode;
+
+    private final String[] mazeGenerationOptions = {"Random DFS", "Open Maze", "Recursive Division", "Prim's", "Kruskal's"};
+    private final String[] pathFindingOptions = {"Depth First Search", "Breadth First Search"};
 
 
     public Visualization() {
 
-        maze = new Maze();
+        JFrame jFrame = new JFrame();
 
         mainPanel = new JPanel();
         controllerPanel = new JPanel();
@@ -40,63 +52,83 @@ public class Visualization extends JFrame {
 
         JLabel mazeOptionsLabel = new JLabel("Choose a Maze Generation method");
         JComboBox mazeOptionsComboBox = new JComboBox(mazeGenerationOptions);
+        JLabel pathFindingOptionsLabel = new JLabel("Choose a Path Finding method");
+        JComboBox pathFindingComboBox = new JComboBox(pathFindingOptions);
 
+
+        JButton solveMazeBtn = new JButton("Solve Maze");
         generateMazeBtn = new JButton("Generate Maze");
-        mainPanel.add(maze);
+
+        maze = new Maze();
+
 
         generateMazeBtn.addActionListener(e -> {
-            int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
-            if (selectedIndex == 0) {
-                RandomizedDFS randomizedDFS = new RandomizedDFS(maze.getMaze());
-                maze.resetMaze();
-                randomizedDFS.generateMaze();
-                repaint();
-            }
+            startNode = MazeUtils.generateStartNode();
+            endNode = MazeUtils.generateEndNode();
+
+            // Since Swing is single threaded, using a SwingWorker allows us to to perform multiple lengthy GUI-interaction tasks in a background thread.
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    int selectedIndex = mazeOptionsComboBox.getSelectedIndex();
+                    if (selectedIndex == 0) {
+                        maze.resetMaze(startNode, endNode);
+                        RandomizedDFS randomizedDFS = new RandomizedDFS(maze, startNode, endNode);
+                        randomizedDFS.generateMaze();
+
+                    }
+
+                    else if (selectedIndex == 1) {
+                        OpenMaze openMaze = new OpenMaze(maze);
+                        maze.resetMaze(startNode, endNode);
+                        openMaze.generateMaze();
+
+                    }
+                    return null;
+                }
+            };
+            worker.execute();
         });
+
+        solveMazeBtn.addActionListener(e -> {
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    int selectedIndex = pathFindingComboBox.getSelectedIndex();
+                    if (selectedIndex == 0) {
+                        DepthFirstSearch dfs = new DepthFirstSearch(maze, startNode, endNode);
+                    }
+                    else if (selectedIndex == 1) {
+                        System.out.println("Bfs selected");
+                        BreadthFirstSearch bfs = new BreadthFirstSearch(maze, startNode, endNode);
+                    }
+                    return null;
+                }
+            };
+            worker.execute();
+        });
+
 
         controllerPanel.add(mazeOptionsLabel);
         controllerPanel.add(mazeOptionsComboBox);
         controllerPanel.add(generateMazeBtn);
+        controllerPanel.add(pathFindingOptionsLabel);
+        controllerPanel.add(pathFindingComboBox);
+        controllerPanel.add(solveMazeBtn);
 
+        mainPanel.add(maze);
 
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.add(mainPanel);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(mainPanel, BorderLayout.CENTER);
-
-        this.add(controllerPanel, BorderLayout.WEST);
-        this.setSize(1201, 796);
-        this.setResizable(false);
-        this.setTitle("Pathfinding Visualizer");
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
-
+        jFrame.add(controllerPanel, BorderLayout.WEST);
+        jFrame.setSize(1201, 796);
+        jFrame.setResizable(false);
+        jFrame.setTitle("Pathfinding Visualizer");
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setVisible(true);
     }
-
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        for (int row = 0; row < maze.getMaze().length; row++) {
-            for (int col = 0; col < maze.getMaze()[0].length; col++) {
-
-                if (maze.getMaze()[row][col].isStart() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.green);
-                else if (maze.getMaze()[row][col].isEnd() && !maze.getMaze()[row][col].isWall()) g.setColor(Color.red);
-                else if (!maze.getMaze()[row][col].isWall())  g.setColor(Color.white);
-                else if (maze.getMaze()[row][col].isWall()) g.setColor(Color.black);
-
-
-                // Fill rect according to what each node is
-                g.fillRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
-
-                // Draw rectangle borders
-                g.setColor(Color.BLACK);
-                g.drawRect(RECT_SIZE * col + START_X, RECT_SIZE * row + START_Y, RECT_SIZE, RECT_SIZE);
-
-            }
-        }
-
-
-    }
-
-
 }
+
+
+
