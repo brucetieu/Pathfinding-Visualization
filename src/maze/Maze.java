@@ -23,8 +23,7 @@ public class Maze extends JPanel {
     public Maze() {
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
-                Node node = new Node(row, col, true, false, false, false, false);
-                maze[row][col] = node; // All paths are closed.
+                maze[row][col] = new Node(row, col, true, false, false, false, false);
             }
         }
     }
@@ -88,8 +87,8 @@ public class Maze extends JPanel {
     }
 
     /**
-     * Need this method to repaint the maze within other classes. The idea is I pass in a Maze object so that I can have access to this method
-     * and can repaint whenever I need. Invoking repaint() calls the paintComponent().
+     * Need this method to repaint the maze in other classes. The idea is I pass in a Maze object to the other class so that I can have access to this method
+     * and can repaint whenever I need to via maze.update(). Invoking repaint() calls the paintComponent().
      */
     public void update() {
         repaint();
