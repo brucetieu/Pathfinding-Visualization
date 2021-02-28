@@ -2,6 +2,7 @@ package maze;
 
 import pathfinding.Node;
 import utils.Delay;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +52,7 @@ public class RandomizedDFS {
 
             // Choose one of the neighboring cells (given randomly).
             if (!this.marked[node.getRow()][node.getCol()]) {
-                this.maze.getMaze()[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
-
+                this.maze.maze[row][col].setWall(false);  // Remove the wall between the current cell and the chosen cell.
                 Delay.delay(5);
                 this.maze.update();
                 dfs(node.getRow(), node.getCol());  // Invoke dfs recursively for a chosen cell.
@@ -72,20 +72,20 @@ public class RandomizedDFS {
         List<Node> adjNeighbors = new ArrayList<>();
 
         // Top
-        if (row - 1 >= 0 && this.maze.getMaze()[row - 1][col].isWall()) {
-            adjNeighbors.add(new Node(row - 1, col, true, false, false, false, false));
+        if (row - 1 >= 0 && this.maze.maze[row - 1][col].isWall()) {
+            adjNeighbors.add(this.maze.maze[row - 1][col]);
         }
         // Bottom
-        if (row + 1 < Maze.MAX_HEIGHT && this.maze.getMaze()[row + 1][col].isWall()) {
-            adjNeighbors.add(new Node(row + 1, col, true, false, false, false, false));
+        if (row + 1 < Maze.MAX_HEIGHT && this.maze.maze[row + 1][col].isWall()) {
+            adjNeighbors.add(this.maze.maze[row + 1][col]);
         }
         // Left
-        if (col - 1 >= 0 && this.maze.getMaze()[row][col - 1].isWall()) {
-            adjNeighbors.add(new Node(row, col - 1, true, false, false, false, false));
+        if (col - 1 >= 0 && this.maze.maze[row][col - 1].isWall()) {
+            adjNeighbors.add(this.maze.maze[row][col - 1]);
         }
         // Right
-        if (col + 1 < Maze.MAX_WIDTH && this.maze.getMaze()[row][col + 1].isWall()) {
-            adjNeighbors.add(new Node(row, col + 1, true, false, false, false, false));
+        if (col + 1 < Maze.MAX_WIDTH && this.maze.maze[row][col + 1].isWall()) {
+            adjNeighbors.add(this.maze.maze[row][col + 1]);
         }
 
         // Important! We must shuffle the list randomly, hence 'randomized' dfs.
