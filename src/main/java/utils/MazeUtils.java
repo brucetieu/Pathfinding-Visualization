@@ -5,11 +5,18 @@ import pathfinding.Node;
 
 import java.util.Random;
 
+
 /**
  * Static maze utility class.
  */
 public class MazeUtils {
 
+    public enum Directions {
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST
+    }
     private static int r1, r2, c1, c2;
     private static Random rand = new Random();
 
