@@ -104,7 +104,7 @@ public class RandomizedDFS {
     /**
      * After picking a direction, we carve a path 2 nodes long/wide in that direction. The current node passed in is a wall. If the second wall is unvisited,
      * We break the walls between it and do a dfs on that chosen node. This is what "Remove the wall between the current cell and the chosen cell" means
-     * given my Node class arrangement.
+     * given my Node / Maze arrangement.
      *
      *        *                                           dfs
      *      wall | wall | wall | wall  --> wall | path | path | wall
@@ -118,8 +118,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() + 1][node.getCol()].setWall(false);  // Carve upward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update();
-                Delay.delay(15);
+                this.maze.update(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.SOUTH)) {
@@ -127,8 +126,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() - 1][node.getCol()].setWall(false);  // Carve downward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update();
-                Delay.delay(15);
+                this.maze.update(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.WEST)) {
@@ -136,8 +134,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() + 1].setWall(false);  // Carve left path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update();
-                Delay.delay(15);
+                this.maze.update(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.EAST)) {
@@ -145,8 +142,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() - 1].setWall(false);  // Carve right path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update();
-                Delay.delay(15);
+                this.maze.update(15);
                 dfs(node.getRow(), node.getCol());
             }
         }

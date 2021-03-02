@@ -38,8 +38,7 @@ public class BreadthFirstSearch {
         // We are adding the paths from the end to the start. Since it's a stack, the path is in reverse order.
         for (Node x = endNode; !x.equals(this.startNode); x = edgeTo[x.getRow()][x.getCol()]) {
             this.maze.maze[x.getRow()][x.getCol()].setPath(true);
-            Delay.delay(10);
-            this.maze.update();
+            this.maze.update(15);
             this.path.push(x);
         }
 
@@ -47,7 +46,7 @@ public class BreadthFirstSearch {
         this.maze.maze[endNode.getRow()][endNode.getCol()].setPath(false);
         this.maze.maze[endNode.getRow()][endNode.getCol()].setEnd(true);
         this.maze.maze[endNode.getRow()][endNode.getCol()].setVisited(false);
-        this.maze.update();
+        this.maze.update(1);
         this.path.push(this.startNode);
         return this.path;
     }
@@ -78,8 +77,7 @@ public class BreadthFirstSearch {
             // Find adjacent unvisited open nodes, add them to the queue.
             findAdjacent(row, col, queue, currentNode);
 
-            Delay.delay(5);
-            maze.update();
+            maze.update(15);
 
         }
         return null;
