@@ -1,9 +1,7 @@
 package pathfinding;
 
 import maze.Maze;
-import utils.Delay;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -41,8 +39,7 @@ public class DepthFirstSearch {
 
         for (Node x = endNode; !x.equals(this.startNode); x = edgeTo[x.getRow()][x.getCol()]) {
             this.maze.maze[x.getRow()][x.getCol()].setPath(true);
-            Delay.delay(5);
-            this.maze.update();
+            this.maze.update(25);
             this.path.push(x);
         }
         this.path.push(this.startNode);
@@ -76,8 +73,7 @@ public class DepthFirstSearch {
             for (Node node : findAdjacent(currentNode.getRow(), currentNode.getCol())) {
                 if (!this.maze.maze[node.getRow()][node.getCol()].isVisited()) {
                     this.edgeTo[node.getRow()][node.getCol()] = currentNode;
-                    this.maze.update();
-                    Delay.delay(5);
+                    this.maze.update(15);
                     stack.push(node);
                 }
             }

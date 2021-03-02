@@ -1,6 +1,7 @@
 package maze;
 
 import pathfinding.Node;
+import utils.Delay;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
@@ -89,8 +90,10 @@ public class Maze extends JPanel {
     /**
      * Need this method to repaint the maze in other classes. The idea is I pass in a Maze object to the other class so that I can have access to this method
      * and can repaint whenever I need to via maze.update(). Invoking repaint() calls the paintComponent().
+     * @param ms Milliseconds of delay.
      */
-    public void update() {
+    public void update(int ms) {
+        Delay.delay(ms);
         repaint();
     }
 
