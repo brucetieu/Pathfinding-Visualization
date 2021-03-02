@@ -119,7 +119,7 @@ public class RandomizedDFS {
                 this.maze.maze[node.getRow() + 1][node.getCol()].setWall(false);  // Carve upward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
-                Delay.delay(10);
+                Delay.delay(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.SOUTH)) {
@@ -128,7 +128,7 @@ public class RandomizedDFS {
                 this.maze.maze[node.getRow() - 1][node.getCol()].setWall(false);  // Carve downward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
-                Delay.delay(10);
+                Delay.delay(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.WEST)) {
@@ -137,7 +137,7 @@ public class RandomizedDFS {
                 this.maze.maze[node.getRow()][node.getCol() + 1].setWall(false);  // Carve left path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
-                Delay.delay(10);
+                Delay.delay(15);
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(Directions.EAST)) {
@@ -146,7 +146,7 @@ public class RandomizedDFS {
                 this.maze.maze[node.getRow()][node.getCol() - 1].setWall(false);  // Carve right path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
-                Delay.delay(10);
+                Delay.delay(15);
                 dfs(node.getRow(), node.getCol());
             }
         }
