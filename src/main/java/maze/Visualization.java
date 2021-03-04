@@ -34,7 +34,7 @@ public class Visualization extends JPanel {
     private Node startNode;
     private Node endNode;
 
-    private final String[] mazeGenerationOptions = {"Random DFS", "Open Maze", "Recursive Division", "Prim's", "Kruskal's"};
+    private final String[] mazeGenerationOptions = {"Random DFS", "Open Maze", "Prim's","Recursive Division", "Kruskal's"};
     private final String[] pathFindingOptions = {"Depth First Search", "Breadth First Search"};
 
 
@@ -77,12 +77,15 @@ public class Visualization extends JPanel {
                         randomizedDFS.generateMaze();
 
                     }
-
                     else if (selectedIndex == 1) {
                         OpenMaze openMaze = new OpenMaze(maze);
                         maze.resetMaze(startNode, endNode);
                         openMaze.generateMaze();
-
+                    }
+                    else if (selectedIndex == 2) {
+                        maze.resetMaze(startNode, endNode);
+                        RandomizedPrims randomizedPrims = new RandomizedPrims(maze, startNode, endNode);
+                        randomizedPrims.generateMaze();
                     }
                     return null;
                 }
