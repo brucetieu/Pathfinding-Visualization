@@ -82,7 +82,7 @@ public class Visualization extends JPanel {
                     else if (selectedIndex == 2) {
                         maze.resetMaze(startNode, endNode);
                         RandomizedPrims randomizedPrims = new RandomizedPrims(maze, startNode, endNode);
-//                        randomizedPrims.generateMaze();
+                        randomizedPrims.generateMaze();
                     }
                     return null;
                 }
