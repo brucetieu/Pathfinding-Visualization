@@ -3,7 +3,9 @@ package maze;
 import pathfinding.Node;
 import utils.Delay;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.Graphics;
 import java.awt.Color;
 
@@ -11,17 +13,20 @@ import java.awt.Color;
 /**
  * Create a maze. Extend JPanel so that we can use paintComponent to paint the maze.
  */
-public class Maze extends JPanel {
+public class Maze extends JPanel implements ChangeListener {
 
     public static final int MAX_HEIGHT = 31;
     public static final int MAX_WIDTH = 38;
     public Node[][] maze = new Node[MAX_HEIGHT][MAX_WIDTH];
     private final int RECT_SIZE = 25;
 
+    private int animationSpeed = 50; // set an initial animation speed.
+
     /**
      * Initialize a fully walled maze.
      */
     public Maze() {
+
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
                 maze[row][col] = new Node(row, col, true, false, false, false, false);
@@ -90,11 +95,16 @@ public class Maze extends JPanel {
     /**
      * Need this method to repaint the maze in other classes. The idea is I pass in a Maze object to the other class so that I can have access to this method
      * and can repaint whenever I need to via maze.update(). Invoking repaint() calls the paintComponent().
-     * @param ms Milliseconds of delay.
      */
-    public void update(int ms) {
-        Delay.delay(ms);
+    public void update() {
+        Visualization.speedSlider.addChangeListener(this);
+        Delay.delay(animationSpeed);
         repaint();
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource();
+        animationSpeed = (int) source.getValue();
+    }
 }

@@ -19,6 +19,7 @@ public class Node {
      * @param isWall Is this node a wall?
      * @param isStart Is this node the start node?
      * @param isEnd Is this node the end node?
+     * @param isVisited Has this node been visited?
      * @param isPath Is this node a part of a path to the end node?
      */
     public Node(int row, int col, boolean isWall, boolean isStart, boolean isEnd, boolean isVisited, boolean isPath) {
@@ -35,6 +36,7 @@ public class Node {
         this.row = row;
         this.col = col;
     }
+
 
     public int getRow() {
         return row;
@@ -103,5 +105,18 @@ public class Node {
     @Override
     public int hashCode() {
         return Objects.hash(row, col, isWall, isStart, isEnd, isVisited);
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "row=" + row +
+                ", col=" + col +
+                ", isWall=" + isWall +
+                ", isStart=" + isStart +
+                ", isEnd=" + isEnd +
+                ", isPath=" + isPath +
+                ", isVisited=" + isVisited +
+                '}';
     }
 }
