@@ -4,8 +4,8 @@ Visualize common pathfinding algorithms with random maze generation. Implemented
 Maze Algorithms:
 1. Randomized Depth First Search
 2. Open Maze (no maze)
-3. Prim's Algorithm (hope to implement)
-4. Kruskal's Algorithm (hope to implement)
+3. Randomized Prim's Algorithm
+4. Randomized Kruskal's Algorithm (hope to implement)
 5. Wilson's Algorithm (hope to implement)
 6. Aldous-Broder Algorithm (hope to implement)
 7. Recursive Division (hope to implement)
