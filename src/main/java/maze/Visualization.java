@@ -5,12 +5,7 @@ import pathfinding.DepthFirstSearch;
 import pathfinding.Node;
 import utils.MazeUtils;
 
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
@@ -37,6 +32,7 @@ public class Visualization extends JPanel {
     private final String[] mazeGenerationOptions = {"Random DFS", "Open Maze", "Prim's","Recursive Division", "Kruskal's"};
     private final String[] pathFindingOptions = {"Depth First Search", "Breadth First Search"};
 
+    public static JSlider speedSlider;
 
     public Visualization() {
 
@@ -54,7 +50,8 @@ public class Visualization extends JPanel {
         JComboBox mazeOptionsComboBox = new JComboBox(mazeGenerationOptions);
         JLabel pathFindingOptionsLabel = new JLabel("Choose a Path Finding method");
         JComboBox pathFindingComboBox = new JComboBox(pathFindingOptions);
-
+        JLabel changeSpeedLabel = new JLabel("Change animation speed");
+        speedSlider = new JSlider();
 
         JButton solveMazeBtn = new JButton("Solve Maze");
         generateMazeBtn = new JButton("Generate Maze");
@@ -85,7 +82,7 @@ public class Visualization extends JPanel {
                     else if (selectedIndex == 2) {
                         maze.resetMaze(startNode, endNode);
                         RandomizedPrims randomizedPrims = new RandomizedPrims(maze, startNode, endNode);
-                        randomizedPrims.generateMaze();
+//                        randomizedPrims.generateMaze();
                     }
                     return null;
                 }
@@ -117,6 +114,8 @@ public class Visualization extends JPanel {
         controllerPanel.add(generateMazeBtn);
         controllerPanel.add(pathFindingOptionsLabel);
         controllerPanel.add(pathFindingComboBox);
+        controllerPanel.add(changeSpeedLabel);
+        controllerPanel.add(speedSlider);
         controllerPanel.add(solveMazeBtn);
 
         mainPanel.add(maze);

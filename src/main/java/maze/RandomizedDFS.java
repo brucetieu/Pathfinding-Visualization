@@ -112,7 +112,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() + 1][node.getCol()].setWall(false);  // Carve upward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update(15);
+                this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(MazeUtils.Directions.SOUTH)) {
@@ -120,7 +120,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() - 1][node.getCol()].setWall(false);  // Carve downward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update(15);
+                this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(MazeUtils.Directions.WEST)) {
@@ -128,7 +128,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() + 1].setWall(false);  // Carve left path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update(15);
+                this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
         } else if (dir.containsKey(MazeUtils.Directions.EAST)) {
@@ -136,7 +136,7 @@ public class RandomizedDFS {
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() - 1].setWall(false);  // Carve right path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
-                this.maze.update(15);
+                this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
         }
