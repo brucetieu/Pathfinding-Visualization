@@ -18,8 +18,13 @@ Pathfinding Algorithms:
 4. A* Search (hope to implement)
 
 
+Randomized DFS + DFS Demo:
 
-![](randomDFS+dfs.gif)
+![](gifs/randomDFS+dfs.gif)
+
+Randomized Prim's + BFS Demo:
+
+![](gifs/prims+bfs.gif)
 
 
 
