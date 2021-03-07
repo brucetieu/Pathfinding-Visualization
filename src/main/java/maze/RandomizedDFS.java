@@ -1,6 +1,7 @@
 package maze;
 
 import pathfinding.Node;
+import pathfinding.Wall;
 import utils.Delay;
 import utils.MazeUtils;
 
@@ -53,8 +54,8 @@ public class RandomizedDFS {
         marked[row][col] = true;
 
         // Choose a random, unvisited neighboring cell, and remove the wall between current cell and chosen cell (carve a path).
-        for (HashMap<MazeUtils.Directions, Node> randomDir : findRandomDirs(row, col)) {
-            carvePath(randomDir);
+        for (Wall randomWall : findRandomDirs(row, col)) {
+            carvePath(randomWall);
         }
     }
 
@@ -63,35 +64,27 @@ public class RandomizedDFS {
      * Find all the adjacent nodes 2 nodes away from the current node in each direction.
      * @param row The current node's row position.
      * @param col The current node's column position.
-     * @return A randomized list of hashmaps.
+     * @return A randomized list of walls.
      */
-    private List<HashMap<MazeUtils.Directions, Node>> findRandomDirs(int row, int col) {
-        List<HashMap<MazeUtils.Directions, Node>> dirs = new ArrayList<>();
+    private List<Wall> findRandomDirs(int row, int col) {
+        List<Wall> walls = new ArrayList<>();
 
         if (row - 2 >= 0) {
-            HashMap<MazeUtils.Directions, Node> map = new HashMap<>();
-            map.put(MazeUtils.Directions.NORTH, this.maze.maze[row - 2][col]);
-            dirs.add(map);
+            walls.add(new Wall(MazeUtils.Directions.NORTH, this.maze.maze[row - 2][col]));
         }
         if (row + 2 < Maze.MAX_HEIGHT) {
-            HashMap<MazeUtils.Directions, Node> map = new HashMap<>();
-            map.put(MazeUtils.Directions.SOUTH, this.maze.maze[row + 2][col]);
-            dirs.add(map);
+            walls.add(new Wall(MazeUtils.Directions.SOUTH, this.maze.maze[row + 2][col]));
         }
         if (col - 2 >= 0) {
-            HashMap<MazeUtils.Directions, Node> map = new HashMap<>();
-            map.put(MazeUtils.Directions.WEST, this.maze.maze[row][col - 2]);
-            dirs.add(map);
+            walls.add(new Wall(MazeUtils.Directions.WEST, this.maze.maze[row][col - 2]));
         }
         if (col + 2 < Maze.MAX_WIDTH) {
-            HashMap<MazeUtils.Directions, Node> map = new HashMap<>();
-            map.put(MazeUtils.Directions.EAST, this.maze.maze[row][col + 2]);
-            dirs.add(map);
+            walls.add(new Wall(MazeUtils.Directions.EAST, this.maze.maze[row][col + 2]));
         }
 
         // Shuffle to ensure randomness.
-        Collections.shuffle(dirs);
-        return dirs;
+        Collections.shuffle(walls);
+        return walls;
 
     }
 
@@ -104,35 +97,35 @@ public class RandomizedDFS {
      *      wall | wall | wall | wall  --> wall | path | path | wall
      *
      *
-     * @param dir The direction (north, east, south, or west).
+     * @param wall The wall (Direction, Node)
      */
-    private void carvePath(HashMap<MazeUtils.Directions, Node> dir) {
-        if (dir.containsKey(MazeUtils.Directions.NORTH)) {
-            Node node = dir.get(MazeUtils.Directions.NORTH);
+    private void carvePath(Wall wall) {
+        if (wall.getDirection() == MazeUtils.Directions.NORTH) {
+            Node node = wall.getNode();
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() + 1][node.getCol()].setWall(false);  // Carve upward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
-        } else if (dir.containsKey(MazeUtils.Directions.SOUTH)) {
-            Node node = dir.get(MazeUtils.Directions.SOUTH);
+        } else if (wall.getDirection() == MazeUtils.Directions.SOUTH) {
+            Node node = wall.getNode();
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow() - 1][node.getCol()].setWall(false);  // Carve downward path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
-        } else if (dir.containsKey(MazeUtils.Directions.WEST)) {
-            Node node = dir.get(MazeUtils.Directions.WEST);
+        } else if (wall.getDirection() == MazeUtils.Directions.WEST) {
+            Node node = wall.getNode();
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() + 1].setWall(false);  // Carve left path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
                 this.maze.update();
                 dfs(node.getRow(), node.getCol());
             }
-        } else if (dir.containsKey(MazeUtils.Directions.EAST)) {
-            Node node = dir.get(MazeUtils.Directions.EAST);
+        } else if (wall.getDirection() == MazeUtils.Directions.EAST) {
+            Node node = wall.getNode();
             if (!marked[node.getRow()][node.getCol()]) {
                 this.maze.maze[node.getRow()][node.getCol() - 1].setWall(false);  // Carve right path.
                 this.maze.maze[node.getRow()][node.getCol()].setWall(false);
