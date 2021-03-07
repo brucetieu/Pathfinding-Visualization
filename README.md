@@ -19,7 +19,7 @@ Pathfinding Algorithms:
 
 
 
-https://user-images.githubusercontent.com/56370411/110256562-c5f4c580-7f56-11eb-996d-bd23f7aafb61.mov
+![](randomDFS+dfs.gif)
 
 
 
