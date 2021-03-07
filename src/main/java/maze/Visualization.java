@@ -22,9 +22,16 @@ public class Visualization extends JPanel {
 
     private Maze maze;
 
+    private JFrame jFrame;
     private JPanel mainPanel;
     private JPanel controllerPanel;
     private JButton generateMazeBtn;
+    private JLabel mazeOptionsLabel;
+    private JComboBox mazeOptionsComboBox;
+    private JLabel pathFindingOptionsLabel;
+    private JComboBox pathFindingComboBox;
+    private JLabel changeSpeedLabel;
+    private JButton solveMazeBtn;
 
     private Node startNode;
     private Node endNode;
@@ -35,30 +42,14 @@ public class Visualization extends JPanel {
     public static JSlider speedSlider;
 
     public Visualization() {
+        initComponents();
+        performActions();
+    }
 
-        JFrame jFrame = new JFrame();
-
-        mainPanel = new JPanel();
-        controllerPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout());
-        mainPanel.setBackground(Color.white);
-        controllerPanel.setLayout(new FlowLayout());
-        controllerPanel.setPreferredSize(new Dimension(250, this.getHeight()));
-        controllerPanel.setBackground(Color.lightGray);
-
-        JLabel mazeOptionsLabel = new JLabel("Choose a Maze Generation method");
-        JComboBox mazeOptionsComboBox = new JComboBox(mazeGenerationOptions);
-        JLabel pathFindingOptionsLabel = new JLabel("Choose a Path Finding method");
-        JComboBox pathFindingComboBox = new JComboBox(pathFindingOptions);
-        JLabel changeSpeedLabel = new JLabel("Change animation speed");
-        speedSlider = new JSlider();
-
-        JButton solveMazeBtn = new JButton("Solve Maze");
-        generateMazeBtn = new JButton("Generate Maze");
-
-        maze = new Maze();
-
-
+    /**
+     * Add actions to the buttons.
+     */
+    private void performActions() {
         generateMazeBtn.addActionListener(e -> {
             startNode = MazeUtils.generateStartNode();
             endNode = MazeUtils.generateEndNode();
@@ -107,7 +98,32 @@ public class Visualization extends JPanel {
             };
             worker.execute();
         });
+    }
 
+    /**
+     * Initialize all the Swing components.
+     */
+    private void initComponents() {
+        jFrame = new JFrame();
+
+        mainPanel = new JPanel();
+        controllerPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout());
+        mainPanel.setBackground(Color.white);
+        controllerPanel.setPreferredSize(new Dimension(250, this.getHeight()));
+        controllerPanel.setBackground(Color.lightGray);
+
+        mazeOptionsLabel = new JLabel("Choose a Maze Generation method");
+        mazeOptionsComboBox = new JComboBox(mazeGenerationOptions);
+        pathFindingOptionsLabel = new JLabel("Choose a Path Finding method");
+        pathFindingComboBox = new JComboBox(pathFindingOptions);
+        changeSpeedLabel = new JLabel("Change animation speed");
+        speedSlider = new JSlider();
+
+        solveMazeBtn = new JButton("Solve Maze");
+        generateMazeBtn = new JButton("Generate Maze");
+
+        maze = new Maze();
 
         controllerPanel.add(mazeOptionsLabel);
         controllerPanel.add(mazeOptionsComboBox);
