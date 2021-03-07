@@ -11,7 +11,8 @@ import java.awt.Color;
 
 
 /**
- * Create a maze. Extend JPanel so that we can use paintComponent to paint the maze.
+ * Create a maze. Extend JPanel so that we can use paintComponent to paint the maze. Implement Changelistener to
+ * override stateChange method and listen for changes made to the slider.
  */
 public class Maze extends JPanel implements ChangeListener {
 
@@ -26,6 +27,8 @@ public class Maze extends JPanel implements ChangeListener {
      * Initialize a fully walled maze.
      */
     public Maze() {
+        // Add listener to the animation slider.
+        Visualization.speedSlider.addChangeListener(this);
 
         for (int row = 0; row < MAX_HEIGHT; row++) {
             for (int col = 0; col < MAX_WIDTH; col++) {
@@ -97,7 +100,6 @@ public class Maze extends JPanel implements ChangeListener {
      * and can repaint whenever I need to via maze.update(). Invoking repaint() calls the paintComponent().
      */
     public void update() {
-        Visualization.speedSlider.addChangeListener(this);
         Delay.delay(animationSpeed);
         repaint();
     }
