@@ -10,7 +10,8 @@ public class Delay {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
+            System.out.println("Error: Thread will be interrupted");
+            Thread.currentThread().interrupt(); // Stop thread from running.
         }
     }
 
